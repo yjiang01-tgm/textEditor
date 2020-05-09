@@ -16,11 +16,11 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0" colspan="2">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QHBoxLayout" name="layoutTabs">
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="newDocument">
         <property name="text">
-         <string>PushButton</string>
+         <string>Neues Dokument</string>
         </property>
        </widget>
       </item>
