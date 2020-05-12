@@ -1,6 +1,7 @@
 import sys
 import os
 from PyQt5 import QtWidgets
+from PyQt5.QtGui import QKeySequence, QFont
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from gui import Ui_MainWindow
 from tkinter import Tk
@@ -13,11 +14,23 @@ class Editor:
         self.currentFile = ""
         self.dict = {}
 
+        ui.actionOpen.triggered.connect(self.openF)
+        ui.actionNew.triggered.connect(self.newF)
+        ui.actionSave.triggered.connect(self.saveF)
+        ui.actionDelete.triggered.connect(self.deleteF)
+        ui.actionClose.triggered.connect(self.closeF)
+
+        ui.toolFett.setCheckable(True)
+        ui.toolFett.setShortcut(QKeySequence.Bold)
+        ui.toolFett.toggled.connect(lambda x: ui.textEdit.setFontWeight(QFont.Bold if x else QFont.Normal))
+
+        ui.textEdit.setAcceptRichText(True)
+
     def newF(self):
         Tk().withdraw()
         filename = filedialog.asksaveasfilename(title='Speicherort auswaehlen', filetypes=[('Text', '*.txt')])
         if filename:
-            self.disableNewDocument()
+            self.disableNewDocumentTab()
             if not filename.endswith('.txt'):
                 filename += '.txt'
             self.currentFile = filename
@@ -35,10 +48,10 @@ class Editor:
         Tk().withdraw()
         filename = filedialog.askopenfilename(title='Datei auswaehlen', filetypes=[('Text', '*.txt')])
         if filename:
-            self.disableNewDocument()
+            self.disableNewDocumentTab()
             self.currentFile = filename
             with open(filename, "r") as file:
-                ui.textEdit.setPlainText(file.read())
+                ui.textEdit.write(file.read())
 
     def saveF(self):
         if self.currentFile == "":
@@ -50,9 +63,11 @@ class Editor:
         os.remove(self.currentFile)
 
     def closeF(self):
+        item = self.dict[self.currentFile]
+        item.setParent(None)
         print("close")
 
-    def disableNewDocument(self):
+    def disableNewDocumentTab(self):
         if self.currentFile == "":
             ui.newDocument.setParent(None)
 
@@ -64,11 +79,6 @@ if __name__ == "__main__":
     ui.setupUi(main_window)
 
     editor = Editor()
-    ui.actionOpen.triggered.connect(editor.openF)
-    ui.actionNew.triggered.connect(editor.newF)
-    ui.actionSave.triggered.connect(editor.saveF)
-    ui.actionDelete.triggered.connect(editor.deleteF)
-    ui.actionClose.triggered.connect(editor.closeF)
 
     main_window.show()
     sys.exit(app.exec_())
