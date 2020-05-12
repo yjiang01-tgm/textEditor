@@ -38,14 +38,18 @@ class Editor:
             self.disableNewDocumentTab()
             if not filename.endswith('.txt'):
                 filename += '.txt'
-            self.currentFile = filename
             open(filename, "w")
-
+            if self.currentFile == "":
+                ui.textEdit.clear()
             self.addNewTab(filename)
 
     def changeCurrentTab(self, filename):
-        with open(self.currentFile, "w") as file:
-            file.write(ui.textEdit.toHtml())
+        if self.currentFile == "":
+            with open(filename, "w") as file:
+                file.write(ui.textEdit.toHtml())
+        else:
+            with open(self.currentFile, "w") as file:
+                file.write(ui.textEdit.toHtml())
         self.currentFile = filename
         with open(filename, "r") as file:
             ui.textEdit.setText(file.read())
@@ -70,16 +74,19 @@ class Editor:
         filename = filedialog.askopenfilename(title='Datei auswaehlen', filetypes=[('Text', '*.txt')])
         if filename:
             self.disableNewDocumentTab()
-            self.currentFile = filename
             with open(filename, "r") as file:
                 ui.textEdit.setText(file.read())
             self.addNewTab(filename)
 
     def saveF(self):
         if self.currentFile == "":
+            Tk().withdraw()
             filename = filedialog.asksaveasfilename(title='Speicherort auswaehlen', filetypes=[('Text', '*.txt')])
-            with open(filename, "w") as file:
-                file.write(ui.textEdit.toHtml())
+            if filename:
+                self.disableNewDocumentTab()
+                if not filename.endswith('.txt'):
+                    filename += '.txt'
+                self.addNewTab(filename)
         with open(self.currentFile, "w") as file:
             file.write(ui.textEdit.toHtml())
 
