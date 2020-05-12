@@ -40,13 +40,21 @@ class Editor:
             self.currentFile = filename
             open(filename, "w")
 
-            self.dict[filename] = QtWidgets.QPushButton(ui.centralwidget)
-            self.dict[filename].setText(filename)
-            self.dict[filename].clicked.connect(lambda: self.changeCurrent(filename))
-            ui.layoutTabs.addWidget(self.dict[filename])
+            self.addNewTab(filename)
 
-    def changeCurrent(self, filename):
+    def changeCurrentTab(self, filename):
+        with open(self.currentFile, "w") as file:
+            file.write(ui.textEdit.toHtml())
         self.currentFile = filename
+        with open(filename, "r") as file:
+            ui.textEdit.setText(file.read())
+
+    def addNewTab(self, filename):
+        self.dict[filename] = QtWidgets.QPushButton(ui.centralwidget)
+        self.dict[filename].setText(filename)
+        self.dict[filename].clicked.connect(lambda: self.changeCurrentTab(filename))
+        self.changeCurrentTab(filename)
+        ui.layoutTabs.addWidget(self.dict[filename])
 
     def openF(self):
         Tk().withdraw()
@@ -55,21 +63,22 @@ class Editor:
             self.disableNewDocumentTab()
             self.currentFile = filename
             with open(filename, "r") as file:
-                ui.textEdit.write(file.read())
+                ui.textEdit.setText(file.read())
+            self.addNewTab(filename)
 
     def saveF(self):
         if self.currentFile == "":
             self.currentFile = "Neues Dokument.txt"
         with open(self.currentFile, "w") as file:
-            file.write(ui.textEdit.toPlainText())
+            file.write(ui.textEdit.toHtml())
 
     def deleteF(self):
+        self.closeF()
         os.remove(self.currentFile)
 
     def closeF(self):
         item = self.dict[self.currentFile]
         item.setParent(None)
-        print("close")
 
     def disableNewDocumentTab(self):
         if self.currentFile == "":
