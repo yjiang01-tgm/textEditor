@@ -19,6 +19,7 @@ class Editor:
         ui.actionSave.triggered.connect(self.saveF)
         ui.actionDelete.triggered.connect(self.deleteF)
         ui.actionClose.triggered.connect(self.closeF)
+        ui.textEdit.selectionChanged.connect(self.updateFormatting)
 
         ui.toolFett.setCheckable(True)
         ui.toolFett.setShortcut(QKeySequence.Bold)
@@ -56,6 +57,14 @@ class Editor:
         self.changeCurrentTab(filename)
         ui.layoutTabs.addWidget(self.dict[filename])
 
+    def updateFormatting(self):
+        ui.toolFett.blockSignals(True)  # Signale blockieren (.connect)
+        ui.toolFett.setChecked(ui.textEdit.fontWeight() == QFont.Bold)
+        ui.toolFett.blockSignals(False)
+        ui.toolKursiv.blockSignals(True)
+        ui.toolKursiv.setChecked((ui.textEdit.fontItalic()))
+        ui.toolKursiv.blockSignals(False)
+
     def openF(self):
         Tk().withdraw()
         filename = filedialog.askopenfilename(title='Datei auswaehlen', filetypes=[('Text', '*.txt')])
@@ -68,7 +77,9 @@ class Editor:
 
     def saveF(self):
         if self.currentFile == "":
-            self.currentFile = "Neues Dokument.txt"
+            filename = filedialog.asksaveasfilename(title='Speicherort auswaehlen', filetypes=[('Text', '*.txt')])
+            with open(filename, "w") as file:
+                file.write(ui.textEdit.toHtml())
         with open(self.currentFile, "w") as file:
             file.write(ui.textEdit.toHtml())
 
