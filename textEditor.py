@@ -24,6 +24,10 @@ class Editor:
         ui.toolFett.setShortcut(QKeySequence.Bold)
         ui.toolFett.toggled.connect(lambda x: ui.textEdit.setFontWeight(QFont.Bold if x else QFont.Normal))
 
+        ui.toolKursiv.setCheckable(True)
+        ui.toolKursiv.setShortcut(QKeySequence.Italic)
+        ui.toolKursiv.toggled.connect(ui.textEdit.setFontItalic)
+
         ui.textEdit.setAcceptRichText(True)
 
     def newF(self):
