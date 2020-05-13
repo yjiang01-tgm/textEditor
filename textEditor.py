@@ -55,9 +55,11 @@ class Editor:
             with open(filename, "w") as file:
                 file.write(ui.textEdit.toHtml())
         else:
+            self.dict[self.currentFile].setEnabled(True)
             with open(self.currentFile, "w") as file:
                 file.write(ui.textEdit.toHtml())
         self.currentFile = filename
+        self.dict[self.currentFile].setEnabled(False)
         with open(filename, "r") as file:
             ui.textEdit.setText(file.read())
 
@@ -110,6 +112,16 @@ class Editor:
     def closeF(self):
         item = self.dict[self.currentFile]
         item.setParent(None)
+        del self.dict[self.currentFile]
+        if self.dict:
+            firstItem = next(iter(self.dict))
+            print(firstItem)
+            self.currentFile = firstItem
+            self.dict[firstItem].setEnabled(False)
+            with open(firstItem, "r") as file:
+                ui.textEdit.setText(file.read())
+        else:
+            ui.textEdit.clear()
 
     def disableNewDocumentTab(self):
         if self.currentFile == "":
