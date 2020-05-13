@@ -29,6 +29,13 @@ class Editor:
         ui.toolKursiv.setShortcut(QKeySequence.Italic)
         ui.toolKursiv.toggled.connect(ui.textEdit.setFontItalic)
 
+        ui.toolUnter.setCheckable(True)
+        ui.toolUnter.setShortcut(QKeySequence.Underline)
+        ui.toolUnter.toggled.connect(ui.textEdit.setFontUnderline)
+
+        ui.textEdit.setFontPointSize(12)
+        ui.toolFontSize.valueChanged.connect(lambda: ui.textEdit.setFontPointSize(ui.toolFontSize.value()))
+
         ui.textEdit.setAcceptRichText(True)
 
     def newF(self):
@@ -66,8 +73,14 @@ class Editor:
         ui.toolFett.setChecked(ui.textEdit.fontWeight() == QFont.Bold)
         ui.toolFett.blockSignals(False)
         ui.toolKursiv.blockSignals(True)
-        ui.toolKursiv.setChecked((ui.textEdit.fontItalic()))
+        ui.toolKursiv.setChecked(ui.textEdit.fontItalic())
         ui.toolKursiv.blockSignals(False)
+        ui.toolUnter.blockSignals(True)
+        ui.toolUnter.setChecked(ui.textEdit.fontUnderline())
+        ui.toolUnter.blockSignals(False)
+        ui.toolFontSize.blockSignals(True)
+        ui.toolFontSize.setValue(int(ui.textEdit.fontPointSize()))
+        ui.toolFontSize.blockSignals(False)
 
     def openF(self):
         Tk().withdraw()
