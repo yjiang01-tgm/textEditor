@@ -106,22 +106,25 @@ class Editor:
             file.write(ui.textEdit.toHtml())
 
     def deleteF(self):
-        self.closeF()
-        os.remove(self.currentFile)
+        if self.currentFile != "":
+            self.closeF()
+            os.remove(self.currentFile)
 
     def closeF(self):
-        item = self.dict[self.currentFile]
-        item.setParent(None)
-        del self.dict[self.currentFile]
-        if self.dict:
-            firstItem = next(iter(self.dict))
-            print(firstItem)
-            self.currentFile = firstItem
-            self.dict[firstItem].setEnabled(False)
-            with open(firstItem, "r") as file:
-                ui.textEdit.setText(file.read())
-        else:
-            ui.textEdit.clear()
+        if self.currentFile != "":
+            item = self.dict[self.currentFile]
+            item.setParent(None)
+            del self.dict[self.currentFile]
+            if self.dict != {}:
+                firstItem = next(iter(self.dict))
+                print("FirstItem " + firstItem)
+                self.currentFile = firstItem
+                self.dict[firstItem].setEnabled(False)
+                with open(firstItem, "r") as file:
+                    ui.textEdit.setText(file.read())
+            else:
+                self.currentFile = ""
+                ui.textEdit.clear()
 
     def disableNewDocumentTab(self):
         if self.currentFile == "":
