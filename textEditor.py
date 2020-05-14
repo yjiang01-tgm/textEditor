@@ -67,6 +67,22 @@ class Editor:
         self.dict[filename] = QtWidgets.QPushButton(ui.centralwidget)
         self.dict[filename].setText(filename)
         self.dict[filename].clicked.connect(lambda: self.changeCurrentTab(filename))
+        self.dict[filename].setStyleSheet("""
+                QPushButton{
+                    color: rgb(255, 255, 255);
+                    background-color: rgb(180, 180, 180);
+                    border: none;
+                    padding: 10px 10px;
+                    font-size: 16px;
+                    border-radius: 8px;
+                }
+
+                QPushButton:hover{
+                    background-color: white;
+                    border: 2px solid rgb(180, 180, 180);
+                    color: rgb(0, 0, 0);
+                }
+                """)
         self.changeCurrentTab(filename)
         ui.layoutTabs.addWidget(self.dict[filename])
 
@@ -117,7 +133,6 @@ class Editor:
             del self.dict[self.currentFile]
             if self.dict != {}:
                 firstItem = next(iter(self.dict))
-                print("FirstItem " + firstItem)
                 self.currentFile = firstItem
                 self.dict[firstItem].setEnabled(False)
                 with open(firstItem, "r") as file:
