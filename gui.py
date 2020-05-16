@@ -20,7 +20,24 @@ class Ui_MainWindow(object):
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
         self.textEdit.setObjectName("textEdit")
-        self.gridLayout_2.addWidget(self.textEdit, 2, 0, 1, 8)
+        self.gridLayout_2.addWidget(self.textEdit, 2, 0, 1, 9)
+        self.toolTitel = QtWidgets.QToolButton(self.centralwidget)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.toolTitel.setFont(font)
+        self.toolTitel.setObjectName("toolTitel")
+        self.gridLayout_2.addWidget(self.toolTitel, 1, 7, 1, 1)
+        self.toolUeberschrift = QtWidgets.QToolButton(self.centralwidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.toolUeberschrift.sizePolicy().hasHeightForWidth())
+        self.toolUeberschrift.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.toolUeberschrift.setFont(font)
+        self.toolUeberschrift.setObjectName("toolUeberschrift")
+        self.gridLayout_2.addWidget(self.toolUeberschrift, 1, 8, 1, 1)
         self.toolFontSize = QtWidgets.QSpinBox(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -34,28 +51,8 @@ class Ui_MainWindow(object):
         self.toolFontSize.setProperty("value", 12)
         self.toolFontSize.setObjectName("toolFontSize")
         self.gridLayout_2.addWidget(self.toolFontSize, 1, 3, 1, 1)
-        self.layoutTabs = QtWidgets.QHBoxLayout()
-        self.layoutTabs.setObjectName("layoutTabs")
-        self.newDocument = QtWidgets.QPushButton(self.centralwidget)
-        self.newDocument.setStyleSheet("QPushButton{                             \n"
-"    color: rgb(255, 255, 255);           \n"
-"    background-color: rgb(180, 180, 180);\n"
-"    border: none;                        \n"
-"    padding: 10px 10px;                  \n"
-"    font-size: 16px;                     \n"
-"    border-radius: 8px;                  \n"
-"}                                        \n"
-"                                         \n"
-"QPushButton:hover{                       \n"
-"    background-color: white;             \n"
-"    border: 2px solid rgb(180, 180, 180);\n"
-"    color: rgb(0, 0, 0);                 \n"
-"}                                        ")
-        self.newDocument.setObjectName("newDocument")
-        self.layoutTabs.addWidget(self.newDocument)
-        self.gridLayout_2.addLayout(self.layoutTabs, 0, 0, 1, 8)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_2.addItem(spacerItem, 1, 4, 1, 1)
+        self.gridLayout_2.addItem(spacerItem, 1, 5, 1, 1)
         self.toolFett = QtWidgets.QToolButton(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -78,6 +75,33 @@ class Ui_MainWindow(object):
         self.toolKursiv.setFont(font)
         self.toolKursiv.setObjectName("toolKursiv")
         self.gridLayout_2.addWidget(self.toolKursiv, 1, 1, 1, 1)
+        self.toolStandard = QtWidgets.QToolButton(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("MS Shell Dlg 2")
+        font.setPointSize(10)
+        self.toolStandard.setFont(font)
+        self.toolStandard.setObjectName("toolStandard")
+        self.gridLayout_2.addWidget(self.toolStandard, 1, 6, 1, 1)
+        self.layoutTabs = QtWidgets.QHBoxLayout()
+        self.layoutTabs.setObjectName("layoutTabs")
+        self.newDocument = QtWidgets.QPushButton(self.centralwidget)
+        self.newDocument.setStyleSheet("QPushButton{                             \n"
+"    color: rgb(255, 255, 255);           \n"
+"    background-color: rgb(180, 180, 180);\n"
+"    border: none;                        \n"
+"    padding: 10px 10px;                  \n"
+"    font-size: 16px;                     \n"
+"    border-radius: 8px;                  \n"
+"}                                        \n"
+"                                         \n"
+"QPushButton:hover{                       \n"
+"    background-color: white;             \n"
+"    border: 2px solid rgb(180, 180, 180);\n"
+"    color: rgb(0, 0, 0);                 \n"
+"}                                        ")
+        self.newDocument.setObjectName("newDocument")
+        self.layoutTabs.addWidget(self.newDocument)
+        self.gridLayout_2.addLayout(self.layoutTabs, 0, 0, 1, 9)
         self.toolUnter = QtWidgets.QToolButton(self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("Consolas")
@@ -86,30 +110,12 @@ class Ui_MainWindow(object):
         self.toolUnter.setFont(font)
         self.toolUnter.setObjectName("toolUnter")
         self.gridLayout_2.addWidget(self.toolUnter, 1, 2, 1, 1)
-        self.toolStandard = QtWidgets.QToolButton(self.centralwidget)
+        self.toolFont = QtWidgets.QFontComboBox(self.centralwidget)
         font = QtGui.QFont()
-        font.setFamily("MS Shell Dlg 2")
-        font.setPointSize(10)
-        self.toolStandard.setFont(font)
-        self.toolStandard.setObjectName("toolStandard")
-        self.gridLayout_2.addWidget(self.toolStandard, 1, 5, 1, 1)
-        self.toolTitel = QtWidgets.QToolButton(self.centralwidget)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.toolTitel.setFont(font)
-        self.toolTitel.setObjectName("toolTitel")
-        self.gridLayout_2.addWidget(self.toolTitel, 1, 6, 1, 1)
-        self.toolUeberschrift = QtWidgets.QToolButton(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.toolUeberschrift.sizePolicy().hasHeightForWidth())
-        self.toolUeberschrift.setSizePolicy(sizePolicy)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.toolUeberschrift.setFont(font)
-        self.toolUeberschrift.setObjectName("toolUeberschrift")
-        self.gridLayout_2.addWidget(self.toolUeberschrift, 1, 7, 1, 1)
+        font.setPointSize(11)
+        self.toolFont.setFont(font)
+        self.toolFont.setObjectName("toolFont")
+        self.gridLayout_2.addWidget(self.toolFont, 1, 4, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 1072, 26))
@@ -136,18 +142,19 @@ class Ui_MainWindow(object):
         self.menuBar.addAction(self.menuDatei.menuAction())
 
         self.retranslateUi(MainWindow)
+        self.toolFont.currentFontChanged['QFont'].connect(self.textEdit.setCurrentFont)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.newDocument.setText(_translate("MainWindow", "Neues Dokument"))
-        self.toolFett.setText(_translate("MainWindow", "F"))
-        self.toolKursiv.setText(_translate("MainWindow", "K"))
-        self.toolUnter.setText(_translate("MainWindow", "U"))
-        self.toolStandard.setText(_translate("MainWindow", "Standard"))
         self.toolTitel.setText(_translate("MainWindow", "Titel"))
         self.toolUeberschrift.setText(_translate("MainWindow", "Überschrift"))
+        self.toolFett.setText(_translate("MainWindow", "F"))
+        self.toolKursiv.setText(_translate("MainWindow", "K"))
+        self.toolStandard.setText(_translate("MainWindow", "Standard"))
+        self.newDocument.setText(_translate("MainWindow", "Neues Dokument"))
+        self.toolUnter.setText(_translate("MainWindow", "U"))
         self.menuDatei.setTitle(_translate("MainWindow", "Datei"))
         self.actionNew.setText(_translate("MainWindow", "Neue Datei"))
         self.actionDelete.setText(_translate("MainWindow", "Datei löschen"))

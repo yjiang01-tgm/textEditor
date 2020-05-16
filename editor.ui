@@ -15,8 +15,38 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="2" column="0" colspan="8">
+    <item row="2" column="0" colspan="9">
      <widget class="QTextEdit" name="textEdit"/>
+    </item>
+    <item row="1" column="7">
+     <widget class="QToolButton" name="toolTitel">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Titel</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="8">
+     <widget class="QToolButton" name="toolUeberschrift">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Überschrift</string>
+      </property>
+     </widget>
     </item>
     <item row="1" column="3">
      <widget class="QSpinBox" name="toolFontSize">
@@ -39,34 +69,7 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="0" colspan="8">
-     <layout class="QHBoxLayout" name="layoutTabs">
-      <item>
-       <widget class="QPushButton" name="newDocument">
-        <property name="styleSheet">
-         <string notr="true">QPushButton{                             
-    color: rgb(255, 255, 255);           
-    background-color: rgb(180, 180, 180);
-    border: none;                        
-    padding: 10px 10px;                  
-    font-size: 16px;                     
-    border-radius: 8px;                  
-}                                        
-                                         
-QPushButton:hover{                       
-    background-color: white;             
-    border: 2px solid rgb(180, 180, 180);
-    color: rgb(0, 0, 0);                 
-}                                        </string>
-        </property>
-        <property name="text">
-         <string>Neues Dokument</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="1" column="4">
+    <item row="1" column="5">
      <spacer name="horizontalSpacer">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -114,6 +117,46 @@ QPushButton:hover{
       </property>
      </widget>
     </item>
+    <item row="1" column="6">
+     <widget class="QToolButton" name="toolStandard">
+      <property name="font">
+       <font>
+        <family>MS Shell Dlg 2</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Standard</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" colspan="9">
+     <layout class="QHBoxLayout" name="layoutTabs">
+      <item>
+       <widget class="QPushButton" name="newDocument">
+        <property name="styleSheet">
+         <string notr="true">QPushButton{                             
+    color: rgb(255, 255, 255);           
+    background-color: rgb(180, 180, 180);
+    border: none;                        
+    padding: 10px 10px;                  
+    font-size: 16px;                     
+    border-radius: 8px;                  
+}                                        
+                                         
+QPushButton:hover{                       
+    background-color: white;             
+    border: 2px solid rgb(180, 180, 180);
+    color: rgb(0, 0, 0);                 
+}                                        </string>
+        </property>
+        <property name="text">
+         <string>Neues Dokument</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
     <item row="1" column="2">
      <widget class="QToolButton" name="toolUnter">
       <property name="font">
@@ -128,46 +171,12 @@ QPushButton:hover{
       </property>
      </widget>
     </item>
-    <item row="1" column="5">
-     <widget class="QToolButton" name="toolStandard">
+    <item row="1" column="4">
+     <widget class="QFontComboBox" name="toolFont">
       <property name="font">
        <font>
-        <family>MS Shell Dlg 2</family>
-        <pointsize>10</pointsize>
+        <pointsize>11</pointsize>
        </font>
-      </property>
-      <property name="text">
-       <string>Standard</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="6">
-     <widget class="QToolButton" name="toolTitel">
-      <property name="font">
-       <font>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Titel</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="7">
-     <widget class="QToolButton" name="toolUeberschrift">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Überschrift</string>
       </property>
      </widget>
     </item>
@@ -222,5 +231,22 @@ QPushButton:hover{
   </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>toolFont</sender>
+   <signal>currentFontChanged(QFont)</signal>
+   <receiver>textEdit</receiver>
+   <slot>setCurrentFont(QFont)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>288</x>
+     <y>101</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>291</x>
+     <y>151</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -121,6 +121,9 @@ class Editor:
         ui.toolFontSize.blockSignals(True)
         ui.toolFontSize.setValue(int(ui.textEdit.fontPointSize()))
         ui.toolFontSize.blockSignals(False)
+        ui.toolFont.blockSignals(True)
+        ui.toolFont.setCurrentFont(ui.textEdit.currentFont())
+        ui.toolFont.blockSignals(False)
 
     def openF(self):
         Tk().withdraw()
