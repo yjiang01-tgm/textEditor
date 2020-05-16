@@ -33,10 +33,29 @@ class Editor:
         ui.toolUnter.setShortcut(QKeySequence.Underline)
         ui.toolUnter.toggled.connect(ui.textEdit.setFontUnderline)
 
+        ui.toolTitel.clicked.connect(self.fontTitle)
+        ui.toolStandard.clicked.connect(self.fontStandard)
+        ui.toolUeberschrift.clicked.connect(self.fontUeberschrift)
+
         ui.textEdit.setFontPointSize(12)
         ui.toolFontSize.valueChanged.connect(lambda: ui.textEdit.setFontPointSize(ui.toolFontSize.value()))
 
         ui.textEdit.setAcceptRichText(True)
+
+    def fontTitle(self):
+        ui.textEdit.setFontUnderline(True)
+        ui.textEdit.setFontWeight(QFont.Bold)
+        ui.textEdit.setFontPointSize(20)
+
+    def fontStandard(self):
+        ui.textEdit.setFontUnderline(False)
+        ui.textEdit.setFontWeight(QFont.Normal)
+        ui.textEdit.setFontPointSize(12)
+
+    def fontUeberschrift(self):
+        ui.textEdit.setFontUnderline(False)
+        ui.textEdit.setFontWeight(QFont.Bold)
+        ui.textEdit.setFontPointSize(16)
 
     def newF(self):
         Tk().withdraw()
@@ -81,6 +100,9 @@ class Editor:
                     background-color: white;
                     border: 2px solid rgb(180, 180, 180);
                     color: rgb(0, 0, 0);
+                }
+                QPushButton:disabled{
+                    background-color: rgba(0, 170, 255, 0.6);
                 }
                 """)
         self.changeCurrentTab(filename)
