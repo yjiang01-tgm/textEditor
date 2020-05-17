@@ -8,11 +8,51 @@ from tkinter import Tk
 from tkinter import filedialog
 
 
+class EditorComponent:
+    def __init__(self, button: QtWidgets.QPushButton, button_text: str, text: str, editor):
+        self.button = button
+        self.button.setText(button_text)
+        self.button.clicked.connect(lambda: editor.changeCurrentTab(button_text))
+        self.button.setStyleSheet("""
+                QPushButton{
+                    color: rgb(255, 255, 255);
+                    background-color: rgb(180, 180, 180);
+                    border: none;
+                    padding: 10px 10px;
+                    font-size: 16px;
+                    border-radius: 8px;
+                }
+
+                QPushButton:hover{
+                    background-color: white;
+                    border: 2px solid rgb(180, 180, 180);
+                    color: rgb(0, 0, 0);
+                }
+                QPushButton:disabled{
+                    background-color: rgba(0, 170, 255, 0.6);
+                }
+                """)
+        self.text = text
+        self.editor = editor
+
+    def setText(self, text):
+        self.text = text
+        ui.textEdit.setText(text)
+
+    def getText(self) -> str:
+        return self.text
+
+    def getButton(self) -> QtWidgets.QPushButton:
+        return self.button
+
+    def buttonStatus(self, status: bool):
+        self.button.setEnabled(status)
+
 class Editor:
 
     def __init__(self):
         self.currentFile = ""
-        self.dict = {}
+        self.dict = {self.currentFile: EditorComponent(QtWidgets.QPushButton(), "Neues Dokument", "", self)}
 
         ui.actionOpen.triggered.connect(self.openF)
         ui.actionNew.triggered.connect(self.newF)
@@ -57,56 +97,23 @@ class Editor:
         ui.textEdit.setFontWeight(QFont.Bold)
         ui.textEdit.setFontPointSize(16)
 
-    def newF(self):
-        Tk().withdraw()
-        filename = filedialog.asksaveasfilename(title='Speicherort auswaehlen', filetypes=[('Text', '*.txt')])
-        if filename:
-            self.disableNewDocumentTab()
-            if not filename.endswith('.txt'):
-                filename += '.txt'
-            open(filename, "w")
-            if self.currentFile == "":
-                ui.textEdit.clear()
-            self.addNewTab(filename)
-
     def changeCurrentTab(self, filename):
-        if self.currentFile == "":
-            with open(filename, "w") as file:
-                file.write(ui.textEdit.toHtml())
-        else:
-            self.dict[self.currentFile].setEnabled(True)
-            with open(self.currentFile, "w") as file:
-                file.write(ui.textEdit.toHtml())
+        editor_comp: EditorComponent = self.dict[self.currentFile]
+        editor_comp.setText(ui.textEdit.toHtml())
+        editor_comp.buttonStatus(True)
+
         self.currentFile = filename
-        self.dict[self.currentFile].setEnabled(False)
-        with open(filename, "r") as file:
-            ui.textEdit.setText(file.read())
+
+        editor_comp = self.dict[self.currentFile]
+        with open(self.currentFile, "r") as file:
+            editor_comp.setText(file.read())
+        editor_comp.buttonStatus(False)
 
     def addNewTab(self, filename):
-        self.dict[filename] = QtWidgets.QPushButton(ui.centralwidget)
-        self.dict[filename].setText(filename)
-        self.dict[filename].clicked.connect(lambda: self.changeCurrentTab(filename))
-        self.dict[filename].setStyleSheet("""
-                QPushButton{
-                    color: rgb(255, 255, 255);
-                    background-color: rgb(180, 180, 180);
-                    border: none;
-                    padding: 10px 10px;
-                    font-size: 16px;
-                    border-radius: 8px;
-                }
-
-                QPushButton:hover{
-                    background-color: white;
-                    border: 2px solid rgb(180, 180, 180);
-                    color: rgb(0, 0, 0);
-                }
-                QPushButton:disabled{
-                    background-color: rgba(0, 170, 255, 0.6);
-                }
-                """)
+        if filename not in self.dict:
+            self.dict[filename] = EditorComponent(QtWidgets.QPushButton(), filename, "", self)
+            ui.layoutTabs.addWidget(self.dict[filename].getButton())
         self.changeCurrentTab(filename)
-        ui.layoutTabs.addWidget(self.dict[filename])
 
     def updateFormatting(self):
         ui.toolFett.blockSignals(True)  # Signale blockieren (.connect)
@@ -125,50 +132,45 @@ class Editor:
         ui.toolFont.setCurrentFont(ui.textEdit.currentFont())
         ui.toolFont.blockSignals(False)
 
+    def newF(self):
+        Tk().withdraw()
+        filename = filedialog.asksaveasfilename(title='Speicherort auswaehlen', filetypes=[('Text', '*.txt')])
+        if filename:
+            if not filename.endswith('.txt'):
+                filename += '.txt'
+            open(filename, "w")
+            self.addNewTab(filename)
+
     def openF(self):
         Tk().withdraw()
         filename = filedialog.askopenfilename(title='Datei auswaehlen', filetypes=[('Text', '*.txt')])
         if filename:
-            self.disableNewDocumentTab()
-            with open(filename, "r") as file:
-                ui.textEdit.setText(file.read())
             self.addNewTab(filename)
+            with open(filename, "r") as file:
+                self.dict[filename].setText(file.read())
 
     def saveF(self):
-        if self.currentFile == "":
-            Tk().withdraw()
-            filename = filedialog.asksaveasfilename(title='Speicherort auswaehlen', filetypes=[('Text', '*.txt')])
-            if filename:
-                self.disableNewDocumentTab()
-                if not filename.endswith('.txt'):
-                    filename += '.txt'
-                self.addNewTab(filename)
         with open(self.currentFile, "w") as file:
             file.write(ui.textEdit.toHtml())
 
     def deleteF(self):
-        if self.currentFile != "":
-            self.closeF()
-            os.remove(self.currentFile)
+        self.closeF()
+        os.remove(self.currentFile)
 
     def closeF(self):
-        if self.currentFile != "":
-            item = self.dict[self.currentFile]
-            item.setParent(None)
-            del self.dict[self.currentFile]
-            if self.dict != {}:
-                firstItem = next(iter(self.dict))
-                self.currentFile = firstItem
-                self.dict[firstItem].setEnabled(False)
-                with open(firstItem, "r") as file:
-                    ui.textEdit.setText(file.read())
-            else:
-                self.currentFile = ""
-                ui.textEdit.clear()
-
-    def disableNewDocumentTab(self):
-        if self.currentFile == "":
-            ui.newDocument.setParent(None)
+        editor_comp = self.dict[self.currentFile]
+        button: QtWidgets.QPushButton = editor_comp.getButton()
+        button.setParent(None)
+        del self.dict[self.currentFile]
+        if self.dict != {}:
+            firstItem = next(iter(self.dict))
+            self.currentFile = firstItem
+            self.dict[firstItem].buttonStatus(False)
+            with open(firstItem, "r") as file:
+                self.dict[firstItem].setText(file.read())
+        else:
+            self.currentFile = ""
+            ui.textEdit.clear()
 
 
 if __name__ == "__main__":
