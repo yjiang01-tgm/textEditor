@@ -198,6 +198,7 @@ QPushButton:hover{
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
+    <addaction name="actionSaveAs"/>
     <addaction name="actionClose"/>
     <addaction name="separator"/>
     <addaction name="actionDelete"/>
@@ -227,6 +228,11 @@ QPushButton:hover{
   <action name="actionSave">
    <property name="text">
     <string>Datei speichern</string>
+   </property>
+  </action>
+  <action name="actionSaveAs">
+   <property name="text">
+    <string>Datei speichern als</string>
    </property>
   </action>
  </widget>

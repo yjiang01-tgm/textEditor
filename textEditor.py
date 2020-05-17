@@ -52,11 +52,12 @@ class Editor:
 
     def __init__(self):
         self.currentFile = ""
-        self.dict = {self.currentFile: EditorComponent(QtWidgets.QPushButton(), "Neues Dokument", "", self)}
+        self.dict = {self.currentFile: EditorComponent(ui.newDocument, "Neues Dokument", "", self)}
 
         ui.actionOpen.triggered.connect(self.openF)
         ui.actionNew.triggered.connect(self.newF)
         ui.actionSave.triggered.connect(self.saveF)
+        ui.actionSaveAs.triggered.connect(self.saveAsF)
         ui.actionDelete.triggered.connect(self.deleteF)
         ui.actionClose.triggered.connect(self.closeF)
         ui.textEdit.selectionChanged.connect(self.updateFormatting)
@@ -105,13 +106,12 @@ class Editor:
         self.currentFile = filename
 
         editor_comp = self.dict[self.currentFile]
-        with open(self.currentFile, "r") as file:
-            editor_comp.setText(file.read())
+        ui.textEdit.setText(editor_comp.getText())
         editor_comp.buttonStatus(False)
 
     def addNewTab(self, filename):
         if filename not in self.dict:
-            self.dict[filename] = EditorComponent(QtWidgets.QPushButton(), filename, "", self)
+            self.dict[filename] = EditorComponent(QtWidgets.QPushButton(ui.centralwidget), filename, "", self)
             ui.layoutTabs.addWidget(self.dict[filename].getButton())
         self.changeCurrentTab(filename)
 
@@ -140,6 +140,8 @@ class Editor:
                 filename += '.txt'
             open(filename, "w")
             self.addNewTab(filename)
+            if "" in self.dict:
+                self.closeF("")
 
     def openF(self):
         Tk().withdraw()
@@ -148,20 +150,40 @@ class Editor:
             self.addNewTab(filename)
             with open(filename, "r") as file:
                 self.dict[filename].setText(file.read())
+            if "" in self.dict:
+                self.closeF("")
 
     def saveF(self):
-        with open(self.currentFile, "w") as file:
-            file.write(ui.textEdit.toHtml())
+        if self.currentFile == "":
+            self.saveAsF()
+        else:
+            with open(self.currentFile, "w") as file:
+                file.write(ui.textEdit.toHtml())
+
+    def saveAsF(self):
+        Tk().withdraw()
+        filename = filedialog.asksaveasfilename(title='Speicherort auswaehlen', filetypes=[('Text', '*.txt')])
+        if filename:
+            if not filename.endswith('.txt'):
+                filename += '.txt'
+            with open(filename, "w") as file:
+                file.write(ui.textEdit.toHtml())
+            self.addNewTab(filename)
+            self.dict[filename].setText(ui.textEdit.toHtml())
+            if "" in self.dict:
+                self.closeF("")
 
     def deleteF(self):
         self.closeF()
         os.remove(self.currentFile)
 
-    def closeF(self):
-        editor_comp = self.dict[self.currentFile]
+    def closeF(self, filename=None):
+        if filename is None:
+            filename = self.currentFile
+        editor_comp = self.dict[filename]
         button: QtWidgets.QPushButton = editor_comp.getButton()
         button.setParent(None)
-        del self.dict[self.currentFile]
+        del self.dict[filename]
         if self.dict != {}:
             firstItem = next(iter(self.dict))
             self.currentFile = firstItem
