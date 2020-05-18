@@ -78,14 +78,14 @@ class Editor:
         ui.toolUnter.setShortcut(QKeySequence.Underline)
         ui.toolUnter.toggled.connect(ui.textEdit.setFontUnderline)
 
-        ui.toolAlignLeft.setCheckable(True)
-        ui.toolAlignLeft.toggled.connect(lambda: ui.textEdit.setAlignment(Qt.AlignLeft))
+        # ui.toolAlignLeft.setCheckable(True)
+        ui.toolAlignLeft.clicked.connect(lambda: ui.textEdit.setAlignment(Qt.AlignLeft))
 
-        ui.toolAlignCenter.setCheckable(True)
-        ui.toolAlignCenter.toggled.connect(lambda: ui.textEdit.setAlignment(Qt.AlignCenter))
+        # ui.toolAlignCenter.setCheckable(True)
+        ui.toolAlignCenter.clicked.connect(lambda: ui.textEdit.setAlignment(Qt.AlignCenter))
 
-        ui.toolAlignRight.setCheckable(True)
-        ui.toolAlignRight.toggled.connect(lambda: ui.textEdit.setAlignment(Qt.AlignRight))
+        # ui.toolAlignRight.setCheckable(True)
+        ui.toolAlignRight.clicked.connect(lambda: ui.textEdit.setAlignment(Qt.AlignRight))
 
         ui.toolTitel.clicked.connect(self.fontTitle)
         ui.toolStandard.clicked.connect(self.fontStandard)
@@ -145,13 +145,13 @@ class Editor:
         ui.toolFont.setCurrentFont(ui.textEdit.currentFont())
         ui.toolFont.blockSignals(False)
         ui.toolAlignLeft.blockSignals(True)
-        ui.toolAlignLeft.setCheckable(ui.textEdit.alignment() is Qt.AlignLeft)
+        ui.toolAlignLeft.setChecked(ui.textEdit.alignment() is Qt.AlignLeft)
         ui.toolAlignLeft.blockSignals(False)
         ui.toolAlignCenter.blockSignals(True)
-        ui.toolAlignCenter.setCheckable(ui.textEdit.alignment() is Qt.AlignCenter)
+        ui.toolAlignCenter.setChecked(ui.textEdit.alignment() is Qt.AlignCenter)
         ui.toolAlignCenter.blockSignals(False)
         ui.toolAlignRight.blockSignals(True)
-        ui.toolAlignRight.setCheckable(ui.textEdit.alignment() is Qt.AlignRight)
+        ui.toolAlignRight.setChecked(ui.textEdit.alignment() is Qt.AlignRight)
         ui.toolAlignRight.blockSignals(False)
 
     def newF(self):
