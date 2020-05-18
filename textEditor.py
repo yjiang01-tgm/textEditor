@@ -10,6 +10,9 @@ from tkinter import filedialog
 
 
 class EditorComponent:
+    """Enthält den Button, Butoon-Label und Text. Der Editor wird als Callback verwendet
+    """
+
     def __init__(self, button: QtWidgets.QPushButton, button_text: str, text: str, editor):
         self.button = button
         self.button.setText(button_text)
@@ -37,22 +40,41 @@ class EditorComponent:
         self.editor = editor
 
     def setText(self, text):
+        """
+        Speichert den Text in einer Variable
+        :param text: Text vom Editor
+        """
         self.text = text
         ui.textEdit.setText(text)
 
     def getText(self) -> str:
+        """
+        Gibt den Text zurück
+        :return: Text von der Variable
+        """
         return self.text
 
     def getButton(self) -> QtWidgets.QPushButton:
+        """
+        Getter vom Button
+        :return: Button-Objekt
+        """
         return self.button
 
     def buttonStatus(self, status: bool):
+        """
+        Setzt den Status vonm Button (Enabled/Disabled)
+        :param status: Status
+        """
         self.button.setEnabled(status)
 
 
 class Editor:
 
     def __init__(self):
+        """
+        Initialisierung
+        """
         self.currentFile = ""
         self.dict = {self.currentFile: EditorComponent(ui.newDocument, "Neues Dokument", "", self)}
 
@@ -97,6 +119,9 @@ class Editor:
         ui.textEdit.setAcceptRichText(True)
 
     def fontTitle(self):
+        """
+        Handler für Title
+        """
         ui.textEdit.setFontUnderline(True)
         ui.textEdit.setFontWeight(QFont.Bold)
         ui.textEdit.setFontItalic(False)
@@ -106,6 +131,9 @@ class Editor:
         self.updateFormatting()
 
     def fontStandard(self):
+        """
+        Handler für Standard
+        """
         ui.textEdit.setFontUnderline(False)
         ui.textEdit.setFontWeight(QFont.Normal)
         ui.textEdit.setFontItalic(False)
@@ -115,6 +143,9 @@ class Editor:
         self.updateFormatting()
 
     def fontUeberschrift(self):
+        """
+        Handler für Überschrift
+        """
         ui.textEdit.setFontUnderline(False)
         ui.textEdit.setFontWeight(QFont.Bold)
         ui.textEdit.setFontItalic(False)
@@ -124,6 +155,10 @@ class Editor:
         self.updateFormatting()
 
     def changeCurrentTab(self, filename):
+        """
+        Ändern vom Tab
+        :param filename: filename von der neuen Tab
+        """
         editor_comp: EditorComponent = self.dict[self.currentFile]
         editor_comp.setText(ui.textEdit.toHtml())
         editor_comp.buttonStatus(True)
@@ -135,12 +170,23 @@ class Editor:
         editor_comp.buttonStatus(False)
 
     def addNewTab(self, filename):
+        """
+        Neuen Tab erstellen
+        :param filename: filename von der neuen Tab
+        """
         if filename not in self.dict:
-            self.dict[filename] = EditorComponent(QtWidgets.QPushButton(ui.centralwidget), filename, "", self)
+            if filename is not "":
+                self.dict[filename] = EditorComponent(QtWidgets.QPushButton(ui.centralwidget), filename, "", self)
+            else:
+                self.dict[filename] = EditorComponent(QtWidgets.QPushButton(ui.centralwidget), "Neues Dokument", "",
+                                                      self)
             ui.layoutTabs.addWidget(self.dict[filename].getButton())
         self.changeCurrentTab(filename)
 
     def updateFormatting(self):
+        """
+        Button-Formattierung ändern, wenn man eine Zeile auswählt
+        """
         ui.toolFett.blockSignals(True)  # Signale blockieren (.connect)
         ui.toolFett.setChecked(ui.textEdit.fontWeight() == QFont.Bold)
         ui.toolFett.blockSignals(False)
@@ -167,6 +213,9 @@ class Editor:
         ui.toolAlignRight.blockSignals(False)
 
     def newF(self):
+        """
+        Neue Datei erstellen
+        """
         Tk().withdraw()
         filename = filedialog.asksaveasfilename(title='Speicherort auswaehlen', filetypes=[('Text', '*.txt')])
         if filename:
@@ -178,6 +227,9 @@ class Editor:
                 self.closeF("")
 
     def openF(self):
+        """
+        Datei öffnen
+        """
         Tk().withdraw()
         filename = filedialog.askopenfilename(title='Datei auswaehlen', filetypes=[('Text', '*.txt')])
         if filename:
@@ -188,6 +240,9 @@ class Editor:
                 self.closeF("")
 
     def saveF(self):
+        """
+        Datei speichern
+        """
         if self.currentFile == "":
             self.saveAsF()
         else:
@@ -199,6 +254,9 @@ class Editor:
                     return
 
     def saveAsF(self):
+        """
+        Datei speichern als
+        """
         Tk().withdraw()
         filename = filedialog.asksaveasfilename(title='Speicherort auswaehlen', filetypes=[('Text', '*.txt')])
         if filename:
@@ -216,11 +274,21 @@ class Editor:
                 self.closeF("")
 
     def deleteF(self):
-        self.closeF()
-        os.remove(self.currentFile)
+        """
+        Datei schließen und von der Festplatte löschen
+        """
+        self.closeF(self.currentFile)
+        try:
+            os.remove(self.currentFile)
+        except:
+            QtWidgets.QMessageBox.about(ui.centralwidget, "Error", "Datei konnte nicht gelöscht werden")
 
     def closeF(self, filename=None):
-        if filename is None:
+        """
+        Datei schließen
+        :param filename: filename von der Datei
+        """
+        if filename is False:
             filename = self.currentFile
         editor_comp = self.dict[filename]
         button: QtWidgets.QPushButton = editor_comp.getButton()
@@ -235,9 +303,13 @@ class Editor:
         else:
             self.currentFile = ""
             ui.textEdit.clear()
+            self.addNewTab("")
 
 
 if __name__ == "__main__":
+    """
+    Applikation und GUI starten
+    """
     app = QApplication(sys.argv)
     main_window = QMainWindow()
     ui = Ui_MainWindow()
