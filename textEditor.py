@@ -3,6 +3,7 @@ import os
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QKeySequence, QFont
 from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtCore import Qt
 from gui import Ui_MainWindow
 from tkinter import Tk
 from tkinter import filedialog
@@ -48,11 +49,14 @@ class EditorComponent:
     def buttonStatus(self, status: bool):
         self.button.setEnabled(status)
 
+
 class Editor:
 
     def __init__(self):
         self.currentFile = ""
         self.dict = {self.currentFile: EditorComponent(ui.newDocument, "Neues Dokument", "", self)}
+
+        ui.newDocument.setEnabled(False)
 
         ui.actionOpen.triggered.connect(self.openF)
         ui.actionNew.triggered.connect(self.newF)
@@ -73,6 +77,15 @@ class Editor:
         ui.toolUnter.setCheckable(True)
         ui.toolUnter.setShortcut(QKeySequence.Underline)
         ui.toolUnter.toggled.connect(ui.textEdit.setFontUnderline)
+
+        ui.toolAlignLeft.setCheckable(True)
+        ui.toolAlignLeft.toggled.connect(lambda: ui.textEdit.setAlignment(Qt.AlignLeft))
+
+        ui.toolAlignCenter.setCheckable(True)
+        ui.toolAlignCenter.toggled.connect(lambda: ui.textEdit.setAlignment(Qt.AlignCenter))
+
+        ui.toolAlignRight.setCheckable(True)
+        ui.toolAlignRight.toggled.connect(lambda: ui.textEdit.setAlignment(Qt.AlignRight))
 
         ui.toolTitel.clicked.connect(self.fontTitle)
         ui.toolStandard.clicked.connect(self.fontStandard)
@@ -131,6 +144,15 @@ class Editor:
         ui.toolFont.blockSignals(True)
         ui.toolFont.setCurrentFont(ui.textEdit.currentFont())
         ui.toolFont.blockSignals(False)
+        ui.toolAlignLeft.blockSignals(True)
+        ui.toolAlignLeft.setCheckable(ui.textEdit.alignment() is Qt.AlignLeft)
+        ui.toolAlignLeft.blockSignals(False)
+        ui.toolAlignCenter.blockSignals(True)
+        ui.toolAlignCenter.setCheckable(ui.textEdit.alignment() is Qt.AlignCenter)
+        ui.toolAlignCenter.blockSignals(False)
+        ui.toolAlignRight.blockSignals(True)
+        ui.toolAlignRight.setCheckable(ui.textEdit.alignment() is Qt.AlignRight)
+        ui.toolAlignRight.blockSignals(False)
 
     def newF(self):
         Tk().withdraw()
@@ -158,7 +180,11 @@ class Editor:
             self.saveAsF()
         else:
             with open(self.currentFile, "w") as file:
-                file.write(ui.textEdit.toHtml())
+                try:
+                    file.write(ui.textEdit.toHtml())
+                except UnicodeEncodeError:
+                    QtWidgets.QMessageBox.about(ui.centralwidget, "Error", "UnicodeEncodeError")
+                    return
 
     def saveAsF(self):
         Tk().withdraw()
@@ -167,7 +193,11 @@ class Editor:
             if not filename.endswith('.txt'):
                 filename += '.txt'
             with open(filename, "w") as file:
-                file.write(ui.textEdit.toHtml())
+                try:
+                    file.write(ui.textEdit.toHtml())
+                except UnicodeEncodeError:
+                    QtWidgets.QMessageBox.about(ui.centralwidget, "Error", "UnicodeEncodeError")
+                    return
             self.addNewTab(filename)
             self.dict[filename].setText(ui.textEdit.toHtml())
             if "" in self.dict:

@@ -15,10 +15,21 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="2" column="0" colspan="9">
-     <widget class="QTextEdit" name="textEdit"/>
+    <item row="1" column="1">
+     <widget class="QToolButton" name="toolKursiv">
+      <property name="font">
+       <font>
+        <family>Consolas</family>
+        <pointsize>12</pointsize>
+        <italic>true</italic>
+       </font>
+      </property>
+      <property name="text">
+       <string>K</string>
+      </property>
+     </widget>
     </item>
-    <item row="1" column="7">
+    <item row="1" column="10">
      <widget class="QToolButton" name="toolTitel">
       <property name="font">
        <font>
@@ -30,7 +41,7 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="8">
+    <item row="1" column="11">
      <widget class="QToolButton" name="toolUeberschrift">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -48,39 +59,20 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="3">
-     <widget class="QSpinBox" name="toolFontSize">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
+    <item row="1" column="5">
+     <widget class="QToolButton" name="toolAlignCenter">
       <property name="font">
        <font>
         <pointsize>11</pointsize>
        </font>
       </property>
-      <property name="minimum">
-       <number>1</number>
+      <property name="text">
+       <string>--</string>
       </property>
-      <property name="value">
-       <number>12</number>
+      <property name="checkable">
+       <bool>false</bool>
       </property>
      </widget>
-    </item>
-    <item row="1" column="5">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
     </item>
     <item row="1" column="0">
      <widget class="QToolButton" name="toolFett">
@@ -103,34 +95,7 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QToolButton" name="toolKursiv">
-      <property name="font">
-       <font>
-        <family>Consolas</family>
-        <pointsize>12</pointsize>
-        <italic>true</italic>
-       </font>
-      </property>
-      <property name="text">
-       <string>K</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="6">
-     <widget class="QToolButton" name="toolStandard">
-      <property name="font">
-       <font>
-        <family>MS Shell Dlg 2</family>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Standard</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0" colspan="9">
+    <item row="0" column="0" colspan="12">
      <layout class="QHBoxLayout" name="layoutTabs">
       <item>
        <widget class="QPushButton" name="newDocument">
@@ -157,6 +122,42 @@ QPushButton:hover{
       </item>
      </layout>
     </item>
+    <item row="1" column="4">
+     <widget class="QToolButton" name="toolAlignLeft">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>&lt;-</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="3">
+     <widget class="QSpinBox" name="toolFontSize">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="value">
+       <number>12</number>
+      </property>
+     </widget>
+    </item>
     <item row="1" column="2">
      <widget class="QToolButton" name="toolUnter">
       <property name="font">
@@ -171,12 +172,56 @@ QPushButton:hover{
       </property>
      </widget>
     </item>
-    <item row="1" column="4">
+    <item row="2" column="0" colspan="12">
+     <widget class="QTextEdit" name="textEdit"/>
+    </item>
+    <item row="1" column="8">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="1" column="9">
+     <widget class="QToolButton" name="toolStandard">
+      <property name="font">
+       <font>
+        <family>MS Shell Dlg 2</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Standard</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="7">
      <widget class="QFontComboBox" name="toolFont">
       <property name="font">
        <font>
         <pointsize>11</pointsize>
        </font>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="6">
+     <widget class="QToolButton" name="toolAlignRight">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>-&gt;</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
       </property>
      </widget>
     </item>
@@ -245,12 +290,28 @@ QPushButton:hover{
    <slot>setCurrentFont(QFont)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>288</x>
-     <y>101</y>
+     <x>628</x>
+     <y>112</y>
     </hint>
     <hint type="destinationlabel">
      <x>291</x>
      <y>151</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolFont</sender>
+   <signal>currentFontChanged(QFont)</signal>
+   <receiver>textEdit</receiver>
+   <slot>setFocus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>520</x>
+     <y>98</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>513</x>
+     <y>171</y>
     </hint>
    </hints>
   </connection>
