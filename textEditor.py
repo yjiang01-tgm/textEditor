@@ -99,17 +99,29 @@ class Editor:
     def fontTitle(self):
         ui.textEdit.setFontUnderline(True)
         ui.textEdit.setFontWeight(QFont.Bold)
+        ui.textEdit.setFontItalic(False)
         ui.textEdit.setFontPointSize(20)
+        ui.textEdit.setAlignment(Qt.AlignLeft)
+
+        self.updateFormatting()
 
     def fontStandard(self):
         ui.textEdit.setFontUnderline(False)
         ui.textEdit.setFontWeight(QFont.Normal)
+        ui.textEdit.setFontItalic(False)
         ui.textEdit.setFontPointSize(12)
+        ui.textEdit.setAlignment(Qt.AlignLeft)
+
+        self.updateFormatting()
 
     def fontUeberschrift(self):
         ui.textEdit.setFontUnderline(False)
         ui.textEdit.setFontWeight(QFont.Bold)
+        ui.textEdit.setFontItalic(False)
         ui.textEdit.setFontPointSize(16)
+        ui.textEdit.setAlignment(Qt.AlignLeft)
+
+        self.updateFormatting()
 
     def changeCurrentTab(self, filename):
         editor_comp: EditorComponent = self.dict[self.currentFile]

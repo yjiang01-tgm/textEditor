@@ -168,6 +168,9 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.toolFont.currentFontChanged['QFont'].connect(self.textEdit.setCurrentFont)
         self.toolFont.currentFontChanged['QFont'].connect(self.textEdit.setFocus)
+        self.toolStandard.clicked.connect(self.textEdit.setFocus)
+        self.toolTitel.clicked.connect(self.textEdit.setFocus)
+        self.toolUeberschrift.clicked.connect(self.textEdit.setFocus)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

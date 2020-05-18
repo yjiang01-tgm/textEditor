@@ -315,5 +315,53 @@ QPushButton:hover{
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>toolStandard</sender>
+   <signal>clicked()</signal>
+   <receiver>textEdit</receiver>
+   <slot>setFocus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>849</x>
+     <y>103</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>838</x>
+     <y>159</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolTitel</sender>
+   <signal>clicked()</signal>
+   <receiver>textEdit</receiver>
+   <slot>setFocus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>930</x>
+     <y>101</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>929</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolUeberschrift</sender>
+   <signal>clicked()</signal>
+   <receiver>textEdit</receiver>
+   <slot>setFocus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1014</x>
+     <y>96</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1006</x>
+     <y>156</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
 </ui>
